@@ -17,7 +17,6 @@
     </v-container>
   </div>
 </template>
-
 <script>
 export default {
   props: { tasks: {}, tasksnum: { type: Number } },
