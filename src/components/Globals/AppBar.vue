@@ -9,6 +9,9 @@
       app
     >
       <v-list nav>
+        <img src="vector.png" alt="profile" />
+        <h3>username</h3>
+        <h3>Email:</h3>
         <p>{{ mail }}</p>
         <v-switch
           v-model="$vuetify.theme.dark"
@@ -66,20 +69,19 @@ export default {
       items: [
         {
           icon: "mdi-home",
-          title: "Welcome",
+          title: "Home",
           to: "/",
         },
         {
-          icon: "mdi-web",
-          title: "Learn Web",
-          to: "/Web",
+          icon: "mdi-format-align-left",
+          title: "Notes",
+          to: "Main",
         },
       ],
     };
   },
   directives: {
     focus: {
-      // directive definition
       inserted: function (el) {
         el.focus();
       },
@@ -99,19 +101,33 @@ export default {
       }
     },
   },
-  // watch: {
-  //   mini() {
-  //     this.mini == true ? this.miniVariant == true : "";
-  //   }
-  // },
+
   mounted() {
     if (this.$vuetify.breakpoint.mobile == true) {
       this.drawer = false;
       this.miniVariant = true;
+    } else if (this.$route.name == "Home") {
+      this.drawer = false;
+      this.miniVariant = false;
     } else {
       this.drawer = true;
       this.miniVariant = true;
     }
+  },
+  watch: {
+    "$route.name": {
+      handler: function (name) {
+        if (this.$route.name == "Home") {
+          this.drawer = false;
+          this.miniVariant = false;
+        } else {
+          this.drawer = true;
+          this.miniVariant = true;
+        }
+      },
+      deep: true,
+      immediate: true,
+    },
   },
 };
 </script>

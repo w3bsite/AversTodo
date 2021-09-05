@@ -21,12 +21,7 @@
 
             <br />
             <v-sheet height="auto" class="px-5 pt-5 mt-5">
-              <v-btn
-                color="primary"
-                class="float-right mt-5"
-                large
-                @click="sendTask"
-              >
+              <v-btn color="primary" class="float-right mt-5" large to="main">
                 Login
               </v-btn>
               <br />
@@ -45,7 +40,8 @@ export default {
   data() {
     return {
       res: null,
-      user: { mail: "" },
+
+      user: { login: true },
     };
   },
   computed: {
@@ -55,26 +51,14 @@ export default {
       },
       set: function (value) {
         this.$setCookie("mail", value);
-        this.user.mail = value;
+        // this.user.mail = value;
       },
     },
   },
-  methods: {
-    sendTask: function () {
-      this.$user("/" + this.mail + ".json", {
-        method: "patch",
-        data: this.user,
-      })
-        .then((r) => {
-          this.res = r.status;
-        })
-        .then(this.$router.push("main"))
-        .catch((e) => (this.res = e.status));
-    },
-  },
+  methods: {},
 
   created() {
-    this.user.mail = this.mail;
+    // this.user.mail = this.mail;
   },
 };
 </script>

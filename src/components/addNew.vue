@@ -2,6 +2,7 @@
   <div>
     <v-container fluid>
       <v-sheet elevation="2" outlined>
+        <h1>{{ task.regNum }}</h1>
         <v-row align="center">
           <v-col class="pa-5">
             <v-form @submit.prevent="push" v-model="valid">
@@ -25,7 +26,13 @@
                 :disabled="valid ? false : true"
                 class="float-right"
                 type="submit"
-                >Add
+                icon
+                large
+              >
+                <v-icon>mdi-send</v-icon>
+              </v-btn>
+              <v-btn @click="image" icon
+                ><v-icon large> mdi-attachment</v-icon>
               </v-btn>
             </v-form>
           </v-col>
@@ -35,7 +42,9 @@
       <all-notes
         v-if="this.tasks !== null"
         :tasks="dbtasks"
-        :tasksnum="tasks.length"
+        :tasksnum="task.regNum"
+        :favnum="task.favNum"
+        :delnum="task.delNum"
       ></all-notes>
     </v-container>
   </div>
@@ -49,7 +58,14 @@ export default {
     return {
       allu: [],
       res: null,
-      task: {},
+      task: {
+        fav: false,
+        del: false,
+        edit: false,
+        regNum: null,
+        favNum: null,
+        delNum: null,
+      },
       valid: false,
       dbtasks: {},
       tasks: [],
@@ -63,6 +79,7 @@ export default {
 
   methods: {
     push: async function () {
+      this.task.regNum = this.task.regNum + 1;
       await this.$set(
         this.tasks,
         this.tasks.length,
@@ -89,12 +106,14 @@ export default {
         .get("/" + this.user.mail + ".json")
         .then((r) => {
           console.log(r.data);
-          this.dbtasks = r.data.slice(1);
+          this.dbtasks = r.data;
           if (typeof this.dbtasks == Array) {
             this.tasks = this.dbtasks;
+            this.task.regNum = 0;
           } else {
             for (const key in this.dbtasks) {
               const element = this.dbtasks[key];
+              this.task.regNum = element.regNum;
               this.$set(
                 this.tasks,
                 this.tasks.length,
@@ -103,7 +122,21 @@ export default {
             }
           }
         })
+
         .catch((e) => (this.allu = e));
+    },
+    image: function () {
+      window.cloudinary
+        .openUploadWidget(
+          { cloud_name: "fitgame", upload_preset: "fitgame" },
+          (error, result) => {
+            if (!error && result && result.event === "success") {
+              this.task.url = result.info.url;
+              console.log(result.info.url);
+            }
+          }
+        )
+        .open();
     },
   },
   created() {
