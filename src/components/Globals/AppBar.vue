@@ -116,7 +116,7 @@ export default {
   },
   watch: {
     "$route.name": {
-      handler: function (name) {
+      handler: function () {
         if (this.$route.name == "Home") {
           this.drawer = false;
           this.miniVariant = false;
