@@ -9,7 +9,7 @@
       app
     >
       <v-list nav>
-        <img src="@/assets/vector.png" alt="profile" />
+        <img :src="vector" alt="profile" />
         <h3>username</h3>
         <h3>Email:</h3>
         <p>{{ mail }}</p>
@@ -60,6 +60,7 @@ export default {
   data() {
     return {
       clipped: false,
+      vector: require("../../assets/Vector.png"),
       drawer: false,
       fixed: true,
       miniVariant: true,
