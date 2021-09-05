@@ -92,6 +92,7 @@
                         @click="
                           addToFav(i);
                           task.fav = !task.fav;
+                          favNum += 1;
                         "
                         icon
                         :color="task.fav == true ? 'pink' : ''"
@@ -102,7 +103,6 @@
                         @click="
                           addToFav(i);
                           task.edit = !task.edit;
-                          favNum += 1;
                         "
                         icon
                       >
