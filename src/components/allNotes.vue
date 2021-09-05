@@ -117,6 +117,7 @@
                           task.fav = false;
                           delNum += 1;
                           tasksnum -= 1;
+                          task.fav == true ? (favNum -= 1) : (favNum = favNum);
                         "
                         icon
                       >
