@@ -2,7 +2,6 @@
   <div>
     <v-container fluid>
       <v-sheet elevation="2" outlined>
-        <h1>{{ task.regNum }}</h1>
         <v-row align="center">
           <v-col class="pa-5">
             <v-form @submit.prevent="push" v-model="valid">
