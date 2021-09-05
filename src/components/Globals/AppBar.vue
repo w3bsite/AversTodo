@@ -9,7 +9,7 @@
       app
     >
       <v-list nav>
-        <img src="vector.png" alt="profile" />
+        <img src="/vector.png" alt="profile" />
         <h3>username</h3>
         <h3>Email:</h3>
         <p>{{ mail }}</p>

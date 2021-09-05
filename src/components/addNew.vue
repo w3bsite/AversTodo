@@ -6,10 +6,9 @@
           <v-col class="pa-5">
             <v-form @submit.prevent="push" v-model="valid">
               <v-text-field
-                style="max-width: 30%"
+                style="max-width: 60%"
                 outlined
                 label="Title"
-                class="col-md-3"
                 v-model="task.title"
                 :rules="rules"
                 required

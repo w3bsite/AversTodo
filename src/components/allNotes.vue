@@ -1,114 +1,133 @@
 <template>
   <div v-if="tasks">
     <v-container fluid>
-      <v-container>
-        <v-btn-toggle style="width: 100%" group>
-          <v-col cols="12" md="2">
-            <v-btn depressed width="100%" min-height="140px" v-model="all">
+      <v-row>
+        <v-col cols="12">
+          <v-btn-toggle class="d-flex flex-column flex-md-row my-5" group>
+            <v-btn
+              depressed
+              :height="mobile ? '20px' : '40px'"
+              class="col-12 col-md-3 my-0"
+              v-model="all"
+            >
               <v-col align="center" class="text--secondary">
-                <v-icon x-large>mdi-format-align-left</v-icon>
-                <br />
-                <span>{{ tasksnum }}</span>
-                <br />
+                <v-icon large> mdi-format-align-left </v-icon>
+
+                {{ tasksnum }}
+
                 Notes
               </v-col>
             </v-btn>
-          </v-col>
-          <v-col cols="12" md="2">
-            <v-btn depressed width="100%" height="100%" v-model="favsOnly">
+
+            <v-btn
+              depressed
+              :height="mobile ? '20px' : '40px'"
+              class="col-12 col-md-3 my-0"
+              v-model="favsOnly"
+            >
               <v-col align="center" class="text--secondary">
-                <v-icon x-large>mdi-heart</v-icon>
-                <br />
+                <v-icon large>mdi-heart</v-icon>
+
                 {{ favNum }}
-                <br />
+
                 Favorite Notes
               </v-col>
             </v-btn>
-          </v-col>
-          <v-col cols="12" md="2">
-            <v-btn depressed width="100%" height="100%" v-model="delsOnly">
+
+            <v-btn
+              depressed
+              :height="mobile ? '20px' : '40px'"
+              class="col-12 col-md-3 my-0"
+              v-model="delsOnly"
+            >
               <v-col align="center" class="text--secondary">
-                <v-icon x-large>mdi-delete</v-icon>
-                <br />
+                <v-icon large>mdi-delete</v-icon>
+
                 {{ delNum }}
-                <br />
+
                 Deleted Notes
               </v-col>
             </v-btn>
-          </v-col>
-        </v-btn-toggle>
-      </v-container>
-      <v-row align="center">
-        <v-col v-for="(task, i) in filteredTasks" :key="i" cols="12" md="3">
-          <v-card height="300px" class="pa-2">
-            <v-container height="280px">
-              <v-row>
-                <v-col cols="10">
-                  <h3>
-                    {{
-                      task.title.length > "30"
-                        ? task.title.substring(0, 30) + ".."
-                        : task.title
-                    }}
-                  </h3>
-                  <br />
+          </v-btn-toggle>
+        </v-col>
+        <v-col cols="12">
+          <v-row align="center">
+            <v-col v-for="(task, i) in filteredTasks" :key="i" cols="12" md="3">
+              <v-card height="300px" class="pa-2">
+                <v-container height="280px">
+                  <v-row>
+                    <v-col cols="10">
+                      <h3>
+                        {{
+                          task.title.length > "30"
+                            ? task.title.substring(0, 30) + ".."
+                            : task.title
+                        }}
+                      </h3>
+                      <br />
 
-                  <v-textarea v-if="task.edit == true" v-model="task.content">
-                  </v-textarea>
-                  <p v-if="task.edit == false">
-                    {{
-                      task.content.length > "90"
-                        ? task.content.substring(0, 90) + ".."
-                        : task.content
-                    }}
-                  </p>
-                  <span v-if="task.url">
-                    <a :href="task.url" target="_blank">
-                      <v-btn icon>
-                        <v-icon color="red"> mdi-file</v-icon></v-btn
-                      ></a
-                    >
-                  </span>
-                </v-col>
-                <v-col cols="1">
-                  <v-btn
-                    v-if="task.del == false"
-                    @click="
-                      addToFav(i);
-                      task.fav = !task.fav;
-                    "
-                    icon
-                    :color="task.fav == true ? 'pink' : ''"
-                  >
-                    <v-icon>mdi-heart</v-icon>
-                  </v-btn>
-                  <v-btn
-                    @click="
-                      addToFav(i);
-                      task.edit = !task.edit;
-                    "
-                    icon
-                  >
-                    <v-icon>mdi-pen</v-icon>
-                  </v-btn>
-                  <div style="height: 140px"></div>
-                  <v-btn
-                    v-if="task.del == false"
-                    @click="
-                      addToFav(i);
-                      task.del = !task.del;
-                      task.fav = false;
-                      delNum += 1;
-                      tasksnum -= 1;
-                    "
-                    icon
-                  >
-                    <v-icon>mdi-delete</v-icon>
-                  </v-btn>
-                </v-col>
-              </v-row>
-            </v-container>
-          </v-card>
+                      <v-textarea
+                        v-if="task.edit == true"
+                        v-model="task.content"
+                      >
+                      </v-textarea>
+                      <p v-if="task.edit == false">
+                        {{
+                          task.content.length > "90"
+                            ? task.content.substring(0, 90) + ".."
+                            : task.content
+                        }}
+                      </p>
+                      <span v-if="task.url">
+                        <a :href="task.url" target="_blank">
+                          <v-btn icon>
+                            <v-icon color="red"> mdi-file</v-icon></v-btn
+                          ></a
+                        >
+                      </span>
+                    </v-col>
+                    <v-col cols="1">
+                      <v-btn
+                        v-if="task.del == false"
+                        @click="
+                          addToFav(i);
+                          task.fav = !task.fav;
+                        "
+                        icon
+                        :color="task.fav == true ? 'pink' : ''"
+                      >
+                        <v-icon>mdi-heart</v-icon>
+                      </v-btn>
+                      <v-btn
+                        @click="
+                          addToFav(i);
+                          task.edit = !task.edit;
+                          favNum += 1;
+                        "
+                        icon
+                      >
+                        <v-icon>mdi-pen</v-icon>
+                      </v-btn>
+                      <div style="height: 140px"></div>
+                      <v-btn
+                        v-if="task.del == false"
+                        @click="
+                          addToFav(i);
+                          task.del = !task.del;
+                          task.fav = false;
+                          delNum += 1;
+                          tasksnum -= 1;
+                        "
+                        icon
+                      >
+                        <v-icon>mdi-delete</v-icon>
+                      </v-btn>
+                    </v-col>
+                  </v-row>
+                </v-container>
+              </v-card>
+            </v-col>
+          </v-row>
         </v-col>
       </v-row>
     </v-container>
@@ -163,6 +182,9 @@ export default {
       } else {
         return this.tasks.filter((e) => e.del == false);
       }
+    },
+    mobile: function () {
+      return this.$vuetify.breakpoint.mobile ? true : false;
     },
   },
 };
